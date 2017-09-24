@@ -97,6 +97,8 @@ contract BettingContract {
 
 		if (bets[gamblerA].outcome != _outcome && bets[gamblerB].outcome != _outcome) {
 			winnings[oracle] += bets[gamblerA].amount + bets[gamblerB].amount - ownerTakeA - ownerTakeB;
+			winnings[owner] += ownerTakeA + ownerTakeB;
+			decisionMade = true;
 			return;
 		}
 
