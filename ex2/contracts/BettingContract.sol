@@ -71,13 +71,13 @@ contract BettingContract {
 			gamblerA = msg.sender;
 			bets[gamblerA] = Bet(_outcome, msg.value, true);
 			bets[gamblerA].initialized = true;
-			BetMade(msg.sender);
+			BetMade(gamblerA);
 			return true;
 		} else if (bets[gamblerB].initialized == false) {
 			gamblerB = msg.sender;
 			bets[gamblerB] = Bet(_outcome, msg.value, true);
 			bets[gamblerB].initialized = true;
-			BetMade(msg.sender);
+			BetMade(gamblerB);
 			BetClosed();
 			return true;
 		}
