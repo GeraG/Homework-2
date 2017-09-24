@@ -63,22 +63,25 @@ contract BettingContract {
 				break;
 			}
 			if (i == outcomes.length - 1) {
+				// Outcome not found
 				return false;
 			}
 		}
 		if (bets[gamblerA].initialized == false) {
 			gamblerA = msg.sender;
 			bets[gamblerA] = Bet(_outcome, msg.value, true);
+			bets[gamblerA].initialized = true;
 			BetMade(msg.sender);
 			return true;
 		} else if (bets[gamblerB].initialized == false) {
 			gamblerB = msg.sender;
 			bets[gamblerB] = Bet(_outcome, msg.value, true);
+			bets[gamblerB].initialized = true;
 			BetMade(msg.sender);
 			BetClosed();
 			return true;
 		}
-		
+		BetClosed();
 		return false;
 	}
 
