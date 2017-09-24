@@ -97,7 +97,7 @@ contract BettingContract {
 
 		if (bets[gamblerA].outcome != _outcome && bets[gamblerB].outcome != _outcome) {
 			winnings[oracle] += bets[gamblerA].amount + bets[gamblerB].amount - ownerTakeA - ownerTakeB;
-			winnings[owner] += ownerTakeA + ownerTakeB;
+			owner.transfer(ownerTakeA + ownerTakeB);
 			decisionMade = true;
 			return;
 		}
@@ -114,17 +114,24 @@ contract BettingContract {
 			winnings[gamblerA] += bets[gamblerB].amount - ownerTakeB;
 		}
 
-		winnings[owner] += ownerTakeA + ownerTakeB;
+		owner.transfer(ownerTakeA + ownerTakeB);
 		decisionMade = true;
+		return;
 	}
 
 	/* Allow anyone to withdraw their winnings safely (if they have enough) */
 	function withdraw(uint withdrawAmount) returns (uint remainingBal) {
-		if (winnings[msg.sender] > 0) {
-			winnings[msg.sender] -= withdrawAmount;
-			msg.sender.transfer(withdrawAmount);
+		if (withdrawAmount < 0) {
 			return winnings[msg.sender];
 		}
+		if (winnings[msg.sender] > 0) {
+			if (winnings[msg.sender] < withdrawAmount) {
+				return winnings[msg.sender];
+			}
+			winnings[msg.sender] -= withdrawAmount;
+			msg.sender.transfer(withdrawAmount);
+		}
+		return winnings[msg.sender];
 	}
 	
 	/* Allow anyone to check the outcomes they can bet on */
