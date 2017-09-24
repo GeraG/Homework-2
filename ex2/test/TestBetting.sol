@@ -16,7 +16,8 @@ contract TestBettingContract {
 	function testMakeBet() {
 		address exampleA = 0x4b0897b0513fdc7c541b6d9d7e929c4e5364d2db;
 		// betting.getCurrAddress.call({from:exampleA});
-		bool boolA = betting.makeBet(1, {value: 50});
+		betting.transfer(50);
+		bool boolA = betting.makeBet(1);
 		// bool boolB = betting.makeBet({from: 0x583031d1113ad414f02576bd6afabfb302140225, value: 600});
 		address gamblerA = betting.gamblerA();
 		Assert.equal(boolA, true, "GamblerA should be set correctly.");
@@ -31,5 +32,4 @@ contract TestBettingContract {
 	// 	uint[] storage expected = betting.checkOutcomes();
 	// 	Assert.equal(outcomes, expected, "Outcomes should be the array declared in ../migrations/2_deploy_contracts.js.");
 	// }
-
 }
