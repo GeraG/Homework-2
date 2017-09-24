@@ -81,7 +81,7 @@ contract BettingContract {
 			BetClosed();
 			return true;
 		}
-		BetClosed();
+		
 		return false;
 	}
 
